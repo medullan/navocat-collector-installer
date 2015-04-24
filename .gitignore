@@ -1,2 +1,5 @@
 .vagrant
+meda_logs
+meda_redis
+meda_data
 
