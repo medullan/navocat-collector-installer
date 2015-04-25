@@ -1,0 +1,4 @@
+- name: Navocat Collector Playbook
+  hosts: default
+  roles:
+    - docker

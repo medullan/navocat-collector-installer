@@ -1,0 +1,29 @@
+---
+- name: setup redis container
+  sudo: yes
+  docker:
+     name: redis
+     image: redis
+     command: redis-server --appendonly yes
+     state: started
+     expose:
+        - 6379
+     volumes:
+        - /vagrant_data/redis:/data
+
+- name: setup navocat-collector container
+  sudo: yes
+  docker:
+     name: navocat-collector
+     image: medullan/navocat-collector
+     command: puma --configs /usr/src/app/meda_configs/config.rb
+     state: started
+     links:
+        "redis:linkalias"
+     expose:
+        - 8000
+     volumes:
+        - /shared_data/app:/usr/src/app
+        - /shared_data/meda_configs:/usr/src/app/meda_configs/
+     env:
+        JRUBY_OPTS: -J-Xmx1g
