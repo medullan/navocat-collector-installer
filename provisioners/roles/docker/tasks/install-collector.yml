@@ -6,7 +6,6 @@
      image: redis
      command: redis-server /usr/local/etc/redis/redis.conf
      state: started
-     privileged: true
      volumes:
         - /shared_data/redis_data:/data
         - /shared_data/meda_configs/redis.conf:/usr/local/etc/redis/redis.conf
