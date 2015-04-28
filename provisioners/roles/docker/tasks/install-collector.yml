@@ -1,5 +1,5 @@
 ---
-- name: setup redis container
+- name: setup and start redis container
   sudo: yes
   docker:
      name: redis
@@ -7,10 +7,10 @@
      command: redis-server /usr/local/etc/redis/redis.conf
      state: started
      volumes:
-        - /shared_data/redis_data:/data
-        - /shared_data/meda_configs/redis.conf:/usr/local/etc/redis/redis.conf
+        - /shared_data/redis_configs:/usr/local/etc/redis:ro
+        - /shared_data/redis_data:/data:rw
 
-- name: setup navocat-collector container
+- name: setup and start navocat-collector container
   sudo: yes
   docker:
      name: navocat-collector
@@ -22,8 +22,8 @@
      ports:
         - "0.0.0.0:8000:8000"
      volumes:
-        - /shared_data/meda_configs:/usr/src/app/meda_configs
-        - /shared_data/meda_data:/usr/src/app/meda_data
-        - /shared_data/log:/usr/src/app/log
+        - /shared_data/meda_configs:/usr/src/app/meda_configs:ro
+        - /shared_data/meda_data:/usr/src/app/meda_data:rw
+        - /shared_data/log:/usr/src/app/log:rw
      env:
         JRUBY_OPTS: -J-Xmx1g
