@@ -23,7 +23,8 @@
         - "0.0.0.0:8000:8000"
      volumes:
         - /shared_data/meda_configs:/usr/src/app/meda_configs:ro
+        - /shared_data/meda_configs/newrelic_config:/usr/src/app/config:ro
         - /shared_data/meda_data:/usr/src/app/meda_data:rw
-        - /shared_data/log:/usr/src/app/log:rw
+        - /shared_data/log:/usr/src/app/log:rw 
      env:
         JRUBY_OPTS: -J-Xmx1g
