@@ -6,3 +6,4 @@
 - name: install docker-py
   sudo: yes
   pip: name=docker-py
+  ignore_errors: yes

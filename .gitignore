@@ -1,4 +1,5 @@
 .vagrant
-meda_logs
-meda_data
+shared_data/log/
+shared_data/meda_data/
+shared_data/redis_data/
 

@@ -4,26 +4,27 @@
   docker:
      name: redis
      image: redis
-     command: redis-server --appendonly yes
+     command: redis-server /usr/local/etc/redis/redis.conf
      state: started
-     expose:
-        - 6379
+     privileged: true
      volumes:
-        - /vagrant_data/redis:/data
+        - /shared_data/redis_data:/data
+        - /shared_data/meda_configs/redis.conf:/usr/local/etc/redis/redis.conf
 
 - name: setup navocat-collector container
   sudo: yes
   docker:
      name: navocat-collector
      image: medullan/navocat-collector
-     command: puma --configs /usr/src/app/meda_configs/config.rb
+     pull: always
      state: started
      links:
-        "redis:linkalias"
-     expose:
-        - 8000
+       - "redis:collector-redis"
+     ports:
+        - "0.0.0.0:8000:8000"
      volumes:
-        - /shared_data/app:/usr/src/app
-        - /shared_data/meda_configs:/usr/src/app/meda_configs/
+        - /shared_data/meda_configs:/usr/src/app/meda_configs
+        - /shared_data/meda_data:/usr/src/app/meda_data
+        - /shared_data/log:/usr/src/app/log
      env:
         JRUBY_OPTS: -J-Xmx1g
